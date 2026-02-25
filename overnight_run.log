@@ -1,0 +1,442 @@
+Running extended experiment with multiple topics and persona distributions...
+Estimated cost: $5-8
+
+Running 144 trials...
+
+[1/144] climate, mixed, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[2/144] climate, mixed, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[3/144] climate, mixed, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[4/144] climate, mixed, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[5/144] climate, mixed, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[6/144] climate, mixed, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[7/144] climate, mixed, random, N=5
+  -> Score: 1.000, Spectral: 3.000
+
+[8/144] climate, mixed, random, N=10
+  -> Score: 1.000, Spectral: 0.850
+
+[9/144] climate, mixed, random, N=15
+  -> Score: 1.000, Spectral: 1.098
+
+[10/144] climate, mixed, scale_free, N=5
+  -> Score: 1.000, Spectral: 0.382
+
+[11/144] climate, mixed, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.277
+
+[12/144] climate, mixed, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.084
+
+[13/144] climate, homogeneous, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[14/144] climate, homogeneous, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[15/144] climate, homogeneous, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[16/144] climate, homogeneous, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[17/144] climate, homogeneous, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[18/144] climate, homogeneous, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[19/144] climate, homogeneous, random, N=5
+  -> Score: 1.000, Spectral: 3.000
+
+[20/144] climate, homogeneous, random, N=10
+  -> Score: 1.000, Spectral: 0.750
+
+[21/144] climate, homogeneous, random, N=15
+  -> Score: 1.000, Spectral: 0.335
+
+[22/144] climate, homogeneous, scale_free, N=5
+  -> Score: 1.000, Spectral: 1.000
+
+[23/144] climate, homogeneous, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.210
+
+[24/144] climate, homogeneous, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.256
+
+[25/144] climate, polarized, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[26/144] climate, polarized, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[27/144] climate, polarized, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[28/144] climate, polarized, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[29/144] climate, polarized, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[30/144] climate, polarized, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[31/144] climate, polarized, random, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[32/144] climate, polarized, random, N=10
+  -> Score: 1.000, Spectral: 1.583
+
+[33/144] climate, polarized, random, N=15
+  -> Score: 1.000, Spectral: 0.960
+
+[34/144] climate, polarized, scale_free, N=5
+  -> Score: 1.000, Spectral: 0.519
+
+[35/144] climate, polarized, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.435
+
+[36/144] climate, polarized, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.151
+
+[37/144] healthcare, mixed, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[38/144] healthcare, mixed, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[39/144] healthcare, mixed, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[40/144] healthcare, mixed, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[41/144] healthcare, mixed, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[42/144] healthcare, mixed, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[43/144] healthcare, mixed, random, N=5
+  -> Score: 1.000, Spectral: 3.000
+
+[44/144] healthcare, mixed, random, N=10
+  -> Score: 1.000, Spectral: 0.781
+
+[45/144] healthcare, mixed, random, N=15
+  -> Score: 1.000, Spectral: 1.053
+
+[46/144] healthcare, mixed, scale_free, N=5
+  -> Score: 1.000, Spectral: 1.000
+
+[47/144] healthcare, mixed, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.164
+
+[48/144] healthcare, mixed, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.164
+
+[49/144] healthcare, homogeneous, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[50/144] healthcare, homogeneous, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[51/144] healthcare, homogeneous, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[52/144] healthcare, homogeneous, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[53/144] healthcare, homogeneous, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[54/144] healthcare, homogeneous, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[55/144] healthcare, homogeneous, random, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[56/144] healthcare, homogeneous, random, N=10
+  -> Score: 1.000, Spectral: 0.980
+
+[57/144] healthcare, homogeneous, random, N=15
+  -> Score: 1.000, Spectral: 0.702
+
+[58/144] healthcare, homogeneous, scale_free, N=5
+  -> Score: 1.000, Spectral: 1.000
+
+[59/144] healthcare, homogeneous, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.236
+
+[60/144] healthcare, homogeneous, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.105
+
+[61/144] healthcare, polarized, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[62/144] healthcare, polarized, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[63/144] healthcare, polarized, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[64/144] healthcare, polarized, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[65/144] healthcare, polarized, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[66/144] healthcare, polarized, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[67/144] healthcare, polarized, random, N=5
+  -> Score: 1.000, Spectral: 1.000
+
+[68/144] healthcare, polarized, random, N=10
+  -> Score: 1.000, Spectral: 0.643
+
+[69/144] healthcare, polarized, random, N=15
+  -> Score: 1.000, Spectral: 0.759
+
+[70/144] healthcare, polarized, scale_free, N=5
+  -> Score: 1.000, Spectral: 0.519
+
+[71/144] healthcare, polarized, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.236
+
+[72/144] healthcare, polarized, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.149
+
+[73/144] education, mixed, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[74/144] education, mixed, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[75/144] education, mixed, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[76/144] education, mixed, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[77/144] education, mixed, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[78/144] education, mixed, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[79/144] education, mixed, random, N=5
+  -> Score: 1.000, Spectral: 3.000
+
+[80/144] education, mixed, random, N=10
+  -> Score: 1.000, Spectral: 0.747
+
+[81/144] education, mixed, random, N=15
+  -> Score: 1.000, Spectral: 0.651
+
+[82/144] education, mixed, scale_free, N=5
+  -> Score: 1.000, Spectral: 1.000
+
+[83/144] education, mixed, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.163
+
+[84/144] education, mixed, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.136
+
+[85/144] education, homogeneous, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[86/144] education, homogeneous, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[87/144] education, homogeneous, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[88/144] education, homogeneous, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[89/144] education, homogeneous, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[90/144] education, homogeneous, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[91/144] education, homogeneous, random, N=5
+  -> Score: 1.000, Spectral: 2.000
+
+[92/144] education, homogeneous, random, N=10
+  -> Score: 1.000, Spectral: 0.835
+
+[93/144] education, homogeneous, random, N=15
+  -> Score: 1.000, Spectral: 0.781
+
+[94/144] education, homogeneous, scale_free, N=5
+  -> Score: 1.000, Spectral: 0.382
+
+[95/144] education, homogeneous, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.177
+
+[96/144] education, homogeneous, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.268
+
+[97/144] education, polarized, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[98/144] education, polarized, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[99/144] education, polarized, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[100/144] education, polarized, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[101/144] education, polarized, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[102/144] education, polarized, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[103/144] education, polarized, random, N=5
+  -> Score: 1.000, Spectral: 0.830
+
+[104/144] education, polarized, random, N=10
+  -> Score: 1.000, Spectral: 0.520
+
+[105/144] education, polarized, random, N=15
+  -> Score: 1.000, Spectral: 0.690
+
+[106/144] education, polarized, scale_free, N=5
+  -> Score: 1.000, Spectral: 0.519
+
+[107/144] education, polarized, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.345
+
+[108/144] education, polarized, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.201
+
+[109/144] economy, mixed, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[110/144] economy, mixed, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[111/144] economy, mixed, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[112/144] economy, mixed, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[113/144] economy, mixed, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[114/144] economy, mixed, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[115/144] economy, mixed, random, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[116/144] economy, mixed, random, N=10
+  -> Score: 1.000, Spectral: 0.856
+
+[117/144] economy, mixed, random, N=15
+  -> Score: 1.000, Spectral: 0.936
+
+[118/144] economy, mixed, scale_free, N=5
+  -> Score: 1.000, Spectral: 1.000
+
+[119/144] economy, mixed, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.210
+
+[120/144] economy, mixed, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.115
+
+[121/144] economy, homogeneous, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[122/144] economy, homogeneous, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[123/144] economy, homogeneous, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[124/144] economy, homogeneous, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[125/144] economy, homogeneous, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[126/144] economy, homogeneous, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[127/144] economy, homogeneous, random, N=5
+  -> Score: 1.000, Spectral: 3.000
+
+[128/144] economy, homogeneous, random, N=10
+  -> Score: 1.000, Spectral: 0.737
+
+[129/144] economy, homogeneous, random, N=15
+  -> Score: 1.000, Spectral: 0.298
+
+[130/144] economy, homogeneous, scale_free, N=5
+  -> Score: 1.000, Spectral: 0.519
+
+[131/144] economy, homogeneous, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.256
+
+[132/144] economy, homogeneous, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.162
+
+[133/144] economy, polarized, complete, N=5
+  -> Score: 1.000, Spectral: 5.000
+
+[134/144] economy, polarized, complete, N=10
+  -> Score: 1.000, Spectral: 10.000
+
+[135/144] economy, polarized, complete, N=15
+  -> Score: 1.000, Spectral: 15.000
+
+[136/144] economy, polarized, cycle, N=5
+  -> Score: 1.000, Spectral: 1.382
+
+[137/144] economy, polarized, cycle, N=10
+  -> Score: 1.000, Spectral: 0.382
+
+[138/144] economy, polarized, cycle, N=15
+  -> Score: 1.000, Spectral: 0.173
+
+[139/144] economy, polarized, random, N=5
+  -> Score: 1.000, Spectral: 3.000
+
+[140/144] economy, polarized, random, N=10
+  -> Score: 1.000, Spectral: 1.624
+
+[141/144] economy, polarized, random, N=15
+  -> Score: 1.000, Spectral: 0.899
+
+[142/144] economy, polarized, scale_free, N=5
+  -> Score: 1.000, Spectral: 0.519
+
+[143/144] economy, polarized, scale_free, N=10
+  -> Score: 1.000, Spectral: 0.197
+
+[144/144] economy, polarized, scale_free, N=15
+  -> Score: 1.000, Spectral: 0.135
+
+============================================================
+COMPARING BASELINE PREDICTORS
+============================================================
+
+Results saved to extended_results.json
