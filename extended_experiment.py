@@ -225,11 +225,17 @@ class ConsensusSwarm:
         
         return result
 
-async def run_extended_experiment(api_key: Optional[str] = None):
-    topics = ["climate", "healthcare", "tech"]
-    persona_types = ["mixed", "homogeneous", "polarized"]
-    graph_types = ["complete", "cycle", "random", "scale_free"]
-    agent_counts = [5, 10, 15]
+async def run_extended_experiment(api_key: Optional[str] = None, quick_test: bool = False):
+    if quick_test:
+        topics = ["climate"]
+        persona_types = ["mixed"]
+        graph_types = ["complete", "cycle"]
+        agent_counts = [5, 10]
+    else:
+        topics = ["climate", "healthcare", "tech"]
+        persona_types = ["mixed", "homogeneous", "polarized"]
+        graph_types = ["complete", "cycle", "random", "scale_free"]
+        agent_counts = [5, 10, 15]
     
     all_results = []
     
@@ -293,17 +299,21 @@ def compare_predictors(results: List[Dict]) -> Dict:
     
     return comparisons
 
-async def main():
+async def main(quick_test: bool = False):
     api_key = os.getenv("OPENAI_API_KEY")
-    
+
     if not api_key:
         print("No API key found. Set OPENAI_API_KEY environment variable.")
         return
-    
-    print("Running extended experiment with multiple topics and persona distributions...")
-    print("Estimated cost: $5-8\n")
-    
-    results = await run_extended_experiment(api_key)
+
+    if quick_test:
+        print("Running QUICK TEST (4 trials)...")
+        print("Estimated cost: $0.50\n")
+    else:
+        print("Running extended experiment with multiple topics and persona distributions...")
+        print("Estimated cost: $5-8\n")
+
+    results = await run_extended_experiment(api_key, quick_test=quick_test)
     
     print("\n" + "="*60)
     print("COMPARING BASELINE PREDICTORS")
