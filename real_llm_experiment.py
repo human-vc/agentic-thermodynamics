@@ -274,6 +274,45 @@ class MockConsensusSwarm(RealConsensusSwarm):
             "consensus_score": consensus_score
         }
 
+async def run_quick_experiment(use_real_llm: bool = False, api_key: Optional[str] = None):
+    questions = [
+        "What is the most effective approach to address climate change?"
+    ]
+    
+    graph_types = ["complete", "cycle"]
+    agent_counts = [5, 10]
+    
+    all_results = []
+    
+    for n_agents in agent_counts:
+        for graph_type in graph_types:
+            for q_idx, question in enumerate(questions):
+                print(f"\nRunning: N={n_agents}, graph={graph_type}, q={q_idx+1}")
+                
+                config = SwarmConfig(
+                    n_agents=n_agents,
+                    n_rounds=3,
+                    graph_type=graph_type,
+                    seed=q_idx * 100 + n_agents
+                )
+                
+                if use_real_llm:
+                    llm_config = LLMConfig(api_key=api_key)
+                    swarm = RealConsensusSwarm(config, llm_config)
+                else:
+                    llm_config = MockLLMConfig()
+                    swarm = MockConsensusSwarm(config, llm_config)
+                
+                try:
+                    result = await swarm.run_full_consensus(question)
+                    result["question_idx"] = q_idx
+                    all_results.append(result)
+                    print(f"  -> Converged: {result['converged']}, Score: {result['final_consensus_score']:.3f}")
+                except Exception as e:
+                    print(f"  Error: {e}")
+    
+    return all_results
+
 async def run_experiment_suite(use_real_llm: bool = False, api_key: Optional[str] = None):
     questions = [
         "What is the most effective approach to address climate change?",
@@ -349,10 +388,12 @@ async def main():
     
     if use_real:
         print("Using real OpenAI API")
+        print("Running REDUCED experiment (2 agents counts × 2 graph types)")
     else:
         print("No API key found, using mock LLM")
     
-    results = await run_experiment_suite(use_real_llm=use_real, api_key=api_key)
+    # Quick test with fewer combinations
+    results = await run_quick_experiment(use_real_llm=use_real, api_key=api_key)
     
     analysis = analyze_results(results)
     
