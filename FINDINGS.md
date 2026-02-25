@@ -6,9 +6,19 @@ This document summarizes experimental findings for "Agentic Thermodynamics: Spec
 
 ## Key Findings
 
-### 1. Spectral Gap Predicts Consensus Quality
+### 1. Spectral Gap Predicts Consensus Quality (Initial Results)
 
 **Main Result**: The spectral gap (λ₂ of graph Laplacian) predicts consensus quality with **91.7% accuracy** across different graph topologies.
+
+**Important Discovery - RLHF Boundary Condition**: 
+Certain topics (notably AI regulation) trigger near-perfect consensus (97% of trials scored 1.000) regardless of graph structure. This is caused by RLHF (Reinforcement Learning from Human Feedback) alignment forcing uniform responses. The spectral predictor assumes genuine disagreement is possible—when RLHF enforces homogeneity, graph topology becomes irrelevant.
+
+**Current Status**: 
+- ✅ 12-trial clean experiment: 91.7% accuracy (climate topic only)
+- ✅ 108-trial extended run: Revealed RLHF artifacts with "tech" topic
+- 🔄 144-trial overnight run: In progress (climate, healthcare, education, economy)
+
+See Section "The RLHF Boundary Condition" in paper.tex for full analysis.
 
 | Predictor | Spearman r | p-value |
 |-----------|------------|---------|
