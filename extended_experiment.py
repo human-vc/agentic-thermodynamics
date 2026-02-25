@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Optional, Tuple
 import json
 import aiohttp
+import time
 
 try:
     from tqdm import tqdm
@@ -16,10 +17,11 @@ except ImportError:
 @dataclass
 class LLMConfig:
     model: str = "gpt-4o-mini"
-    temperature: float = 0.7
+    temperature: float = 1.0  # Increased for more diversity
     max_tokens: int = 150
     api_key: Optional[str] = None
-    rate_limit_delay: float = 1.0  # Increased from 0.05 to avoid 429 errors
+    rate_limit_delay: float = 1.0  # Avoid 429 errors
+    log_file: str = "api_responses.jsonl"
 
 @dataclass
 class SwarmConfig:
@@ -66,7 +68,8 @@ class RealLLMAgent:
         self.opinion_history = []
         self.current_opinion = None
         
-    async def generate_opinion(self, question: str, context: str = "") -> str:
+    async def generate_opinion(self, question: str, context: str = "", trial_id: str = "", round_num: int = 0) -> Optional[str]:
+        """Generate opinion. Returns None on failure (no fallback). Logs all responses."""
         headers = {
             "Authorization": f"Bearer {self.config.api_key or os.getenv('OPENAI_API_KEY')}",
             "Content-Type": "application/json"
@@ -89,6 +92,8 @@ class RealLLMAgent:
         
         # Retry with exponential backoff
         max_retries = 3
+        last_error = None
+        
         for attempt in range(max_retries):
             try:
                 async with aiohttp.ClientSession() as session:
@@ -97,11 +102,29 @@ class RealLLMAgent:
                         headers=headers,
                         json=payload
                     ) as resp:
+                        response_text = await resp.text()
+                        
+                        # Log raw response
+                        log_entry = {
+                            "trial_id": trial_id,
+                            "round": round_num,
+                            "agent_id": self.id,
+                            "status": resp.status,
+                            "attempt": attempt,
+                            "timestamp": time.time()
+                        }
+                        
                         if resp.status == 200:
-                            data = await resp.json()
+                            data = json.loads(response_text)
                             opinion = data["choices"][0]["message"]["content"].strip()
                             self.current_opinion = opinion
                             self.opinion_history.append(opinion)
+                            
+                            # Log success with response
+                            log_entry["success"] = True
+                            log_entry["response"] = opinion
+                            self._log_response(log_entry)
+                            
                             return opinion
                         elif resp.status == 429:
                             # Rate limited - exponential backoff
@@ -110,25 +133,51 @@ class RealLLMAgent:
                             await asyncio.sleep(wait_time)
                             continue
                         else:
-                            error_text = await resp.text()
+                            last_error = f"API error: {resp.status}"
                             print(f"    API error for agent {self.id}: {resp.status}")
                             if attempt < max_retries - 1:
                                 await asyncio.sleep(1)
                                 continue
-                            return self._fallback()
+                            
+                            # Log failure
+                            log_entry["success"] = False
+                            log_entry["error"] = last_error
+                            self._log_response(log_entry)
+                            return None
+                            
             except Exception as e:
+                last_error = str(e)
                 print(f"    Exception for agent {self.id}: {str(e)[:50]}")
                 if attempt < max_retries - 1:
                     await asyncio.sleep(1)
                     continue
-                return self._fallback()
+                
+                # Log failure
+                log_entry = {
+                    "trial_id": trial_id,
+                    "round": round_num,
+                    "agent_id": self.id,
+                    "status": "exception",
+                    "attempt": attempt,
+                    "success": False,
+                    "error": last_error,
+                    "timestamp": time.time()
+                }
+                self._log_response(log_entry)
+                return None
             finally:
                 await asyncio.sleep(self.config.rate_limit_delay)
         
-        return self._fallback()
+        # All retries exhausted
+        return None
     
-    def _fallback(self):
-        return "Based on available information, further analysis is needed."
+    def _log_response(self, log_entry: Dict):
+        """Append log entry to file"""
+        try:
+            with open(self.config.log_file, "a") as f:
+                f.write(json.dumps(log_entry) + "\n")
+        except Exception as e:
+            print(f"    Warning: Could not log response: {e}")
 
 class ConsensusSwarm:
     def __init__(self, config: SwarmConfig, llm_config: LLMConfig):
@@ -197,7 +246,8 @@ class ConsensusSwarm:
         except:
             return 0.5
     
-    async def run_consensus_round(self, question: str, round_num: int) -> Dict:
+    async def run_consensus_round(self, question: str, round_num: int, trial_id: str) -> Dict:
+        """Run one round. Track errors. Returns None responses for failed agents."""
         tasks = []
         
         for agent in self.agents:
@@ -210,17 +260,42 @@ class ConsensusSwarm:
                 if neighbor_ops:
                     context = "\n".join(neighbor_ops[:3])
             
-            tasks.append(agent.generate_opinion(question, context))
+            tasks.append(agent.generate_opinion(question, context, trial_id, round_num))
         
         opinions = await asyncio.gather(*tasks)
-        consensus_score = self._compute_consensus_score(opinions)
+        
+        # Track errors (None responses)
+        errors = sum(1 for op in opinions if op is None)
+        valid_opinions = [op for op in opinions if op is not None]
+        
+        # Compute consensus only on valid opinions
+        if len(valid_opinions) >= 2:
+            consensus_score = self._compute_consensus_score(valid_opinions)
+        else:
+            consensus_score = 0.0  # Not enough valid responses
+            
         self.consensus_scores.append(consensus_score)
         
-        return {"opinions": opinions, "consensus_score": consensus_score}
+        return {
+            "opinions": opinions, 
+            "valid_opinions": valid_opinions,
+            "consensus_score": consensus_score,
+            "errors": errors,
+            "total_agents": len(opinions)
+        }
     
-    async def run_full_consensus(self, question: str) -> Dict:
+    async def run_full_consensus(self, question: str, trial_id: str) -> Optional[Dict]:
+        """Run full consensus. Returns None if trial has errors."""
+        has_errors = False
+        max_errors = 0
+        
         for round_num in range(self.config.n_rounds):
-            await self.run_consensus_round(question, round_num)
+            round_data = await self.run_consensus_round(question, round_num, trial_id)
+            
+            if round_data["errors"] > 0:
+                has_errors = True
+                max_errors = max(max_errors, round_data["errors"])
+                print(f"    ⚠️  Round {round_num + 1}: {round_data['errors']} agent(s) failed")
             
             if self.consensus_scores[-1] >= self.config.consensus_threshold:
                 break
@@ -239,9 +314,16 @@ class ConsensusSwarm:
             "converged": converged,
             "rounds_to_converge": len(self.consensus_scores),
             "consensus_trajectory": self.consensus_scores,
+            "has_errors": has_errors,
+            "max_errors_in_round": max_errors,
             **{f"baseline_{k}": v for k, v in self.baseline_metrics.items()}
         }
         
+        # Return None if trial had errors (will be excluded from analysis)
+        if has_errors:
+            print(f"    ❌ TRIAL FLAGGED: {max_errors} max errors in a round")
+            return None
+            
         return result
 
 async def run_extended_experiment(api_key: Optional[str] = None, quick_test: bool = False):
@@ -257,9 +339,12 @@ async def run_extended_experiment(api_key: Optional[str] = None, quick_test: boo
         agent_counts = [5, 10, 15]
     
     all_results = []
+    failed_trials = 0
     
     total_trials = len(topics) * len(persona_types) * len(graph_types) * len(agent_counts)
     print(f"Running {total_trials} trials...")
+    print(f"Temperature: 1.0 | Rate limit delay: 1.0s")
+    print(f"Failed trials will be excluded from analysis\n")
     
     trial_num = 0
     for topic in topics:
@@ -267,7 +352,8 @@ async def run_extended_experiment(api_key: Optional[str] = None, quick_test: boo
             for graph_type in graph_types:
                 for n_agents in agent_counts:
                     trial_num += 1
-                    print(f"\n[{trial_num}/{total_trials}] {topic}, {persona_type}, {graph_type}, N={n_agents}")
+                    trial_id = f"{topic}_{persona_type}_{graph_type}_N{n_agents}_T{trial_num}"
+                    print(f"\n[{trial_num}/{total_trials}] {trial_id}")
                     
                     config = SwarmConfig(
                         n_agents=n_agents,
@@ -284,11 +370,24 @@ async def run_extended_experiment(api_key: Optional[str] = None, quick_test: boo
                     
                     try:
                         question = TOPICS[topic]
-                        result = await swarm.run_full_consensus(question)
-                        all_results.append(result)
-                        print(f"  -> Score: {result['final_consensus_score']:.3f}, Spectral: {result['spectral_gap']:.3f}")
+                        result = await swarm.run_full_consensus(question, trial_id)
+                        
+                        if result is None:
+                            failed_trials += 1
+                            print(f"  ❌ Trial excluded due to errors")
+                        else:
+                            all_results.append(result)
+                            print(f"  ✓ Score: {result['final_consensus_score']:.3f}, Spectral: {result['spectral_gap']:.3f}")
                     except Exception as e:
-                        print(f"  Error: {e}")
+                        print(f"  ❌ Exception: {e}")
+                        failed_trials += 1
+    
+    print(f"\n{'='*60}")
+    print(f"TRIAL SUMMARY")
+    print(f"{'='*60}")
+    print(f"Total attempted: {total_trials}")
+    print(f"Successful: {len(all_results)}")
+    print(f"Failed/Excluded: {failed_trials}")
     
     return all_results
 
