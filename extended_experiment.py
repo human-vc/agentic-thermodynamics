@@ -34,9 +34,8 @@ class SwarmConfig:
 TOPICS = {
     "climate": "What is the most effective policy to address climate change?",
     "healthcare": "Should healthcare be primarily public or private?",
-    "education": "What is the best approach to improve K-12 education?",
-    "tech": "How should AI be regulated?",
-    "economy": "What is the best strategy to reduce income inequality?"
+    "education": "Should K-12 education focus more on standardized testing or project-based learning?",
+    "economy": "Is globalization more beneficial or harmful for domestic workers?"
 }
 
 PERSONA_SETS = {
@@ -232,7 +231,7 @@ async def run_extended_experiment(api_key: Optional[str] = None, quick_test: boo
         graph_types = ["complete", "cycle"]
         agent_counts = [5, 10]
     else:
-        topics = ["climate", "healthcare", "tech"]
+        topics = ["climate", "healthcare", "education", "economy"]
         persona_types = ["mixed", "homogeneous", "polarized"]
         graph_types = ["complete", "cycle", "random", "scale_free"]
         agent_counts = [5, 10, 15]
