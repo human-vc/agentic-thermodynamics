@@ -112,14 +112,15 @@ We use TF-IDF vectorization followed by cosine similarity to measure semantic ag
 
 \subsection{Discussion Topics}
 
-Agents debate substantive questions on five topics:
+Agents debate substantive questions on four topics:
 \begin{itemize}
     \item Climate change policy
     \item Healthcare (public vs. private)
-    \item Education reform
-    \item AI regulation
-    \item Income inequality
+    \item Education reform (standardized testing vs. project-based learning)
+    \item Economic globalization (beneficial vs. harmful for domestic workers)
 \end{itemize}
+
+Notably, we initially included AI regulation as a fifth topic, but discovered it produced artifactual perfect consensus across all conditions. This reveals an important boundary condition: RLHF (Reinforcement Learning from Human Feedback) alignment can force uniform responses regardless of graph structure, effectively breaking the physics of our model. We exclude this topic from our main analysis and discuss its implications in Section~\ref{sec:rlhf}.
 
 \section{Results}
 
@@ -175,6 +176,14 @@ Designers of multi-agent systems can use our framework to:
     \item Optimize graph structure for their consensus requirements
 \end{enumerate}
 
+\subsection{The RLHF Boundary Condition}\label{sec:rlhf}
+
+An unexpected discovery emerged during our extended validation: certain topics trigger near-perfect consensus regardless of graph structure. Specifically, when agents discussed AI regulation, 97\% of trials achieved perfect consensus (score = 1.000) across all graph types and persona distributions.
+
+We attribute this to \textbf{RLHF-induced homogenization}. GPT-4o-mini has been extensively fine-tuned to provide balanced, neutral responses on AI policy questions---a form of alignment that overrides the diversity we intentionally injected via personas. The model essentially ignores neighboring opinions and produces its ``safe'' default response.
+
+This reveals a critical boundary condition for our framework: the spectral predictor assumes agents can genuinely disagree. When RLFH guardrails enforce uniformity, graph structure becomes irrelevant. This has practical implications: multi-agent systems discussing topics where the base model has strong alignment preferences will not benefit from sophisticated graph topology.
+
 \subsection{Limitations}
 
 Our study has several limitations:
@@ -182,6 +191,7 @@ Our study has several limitations:
     \item Only tested with GPT-4o-mini; other models may behave differently
     \item Consensus measured by semantic similarity, not factual accuracy
     \item Static graphs; real systems may have dynamic topologies
+    \item RLHF effects may vary by model version and provider
 \end{itemize}
 
 \section{Conclusion}
