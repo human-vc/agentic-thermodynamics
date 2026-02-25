@@ -1,0 +1,143 @@
+{
+  "results": [
+    {
+      "n_agents": 5,
+      "graph_type": "complete",
+      "topic": "climate",
+      "persona_type": "mixed",
+      "spectral_gap": 4.999999999999998,
+      "fiedler_value": 4.999999999999998,
+      "final_consensus_score": 0.3171453986346811,
+      "converged": false,
+      "rounds_to_converge": 8,
+      "consensus_trajectory": [
+        0.3287258423487035,
+        0.2805447338940904,
+        0.2762582495439374,
+        0.2812813371425241,
+        0.304952968959631,
+        0.3532623785547401,
+        0.372076895357577,
+        0.3171453986346811
+      ],
+      "baseline_avg_degree": 4.0,
+      "baseline_max_degree": 4,
+      "baseline_min_degree": 4,
+      "baseline_density": 1.0,
+      "baseline_clustering": 1.0,
+      "baseline_diameter": 1,
+      "baseline_algebraic_connectivity": 4.999999999999998
+    },
+    {
+      "n_agents": 10,
+      "graph_type": "complete",
+      "topic": "climate",
+      "persona_type": "mixed",
+      "spectral_gap": 9.999999999999986,
+      "fiedler_value": 9.999999999999986,
+      "final_consensus_score": 0.3636571805124027,
+      "converged": false,
+      "rounds_to_converge": 8,
+      "consensus_trajectory": [
+        0.3375745024780873,
+        0.335951580026482,
+        0.3430973587338672,
+        0.339278197784327,
+        0.3204496945026471,
+        0.3093449927971278,
+        0.36725398762606165,
+        0.3636571805124027
+      ],
+      "baseline_avg_degree": 9.0,
+      "baseline_max_degree": 9,
+      "baseline_min_degree": 9,
+      "baseline_density": 1.0,
+      "baseline_clustering": 1.0,
+      "baseline_diameter": 1,
+      "baseline_algebraic_connectivity": 9.999999999999998
+    },
+    {
+      "n_agents": 5,
+      "graph_type": "cycle",
+      "topic": "climate",
+      "persona_type": "mixed",
+      "spectral_gap": 1.3819660112501049,
+      "fiedler_value": 1.3819660112501049,
+      "final_consensus_score": 0.2919119007328198,
+      "converged": false,
+      "rounds_to_converge": 8,
+      "consensus_trajectory": [
+        0.3287466558071777,
+        0.275188805389514,
+        0.33349545756924087,
+        0.3332324030390226,
+        0.26776397248741246,
+        0.2647373107969389,
+        0.3779085300795708,
+        0.2919119007328198
+      ],
+      "baseline_avg_degree": 2.0,
+      "baseline_max_degree": 2,
+      "baseline_min_degree": 2,
+      "baseline_density": 0.5,
+      "baseline_clustering": 0.0,
+      "baseline_diameter": 2,
+      "baseline_algebraic_connectivity": 1.381966011250105
+    },
+    {
+      "n_agents": 10,
+      "graph_type": "cycle",
+      "topic": "climate",
+      "persona_type": "mixed",
+      "spectral_gap": 0.38196601125010476,
+      "fiedler_value": 0.38196601125010476,
+      "final_consensus_score": 0.334051999930793,
+      "converged": false,
+      "rounds_to_converge": 8,
+      "consensus_trajectory": [
+        0.35170226085525025,
+        0.2863436641783592,
+        0.30516095878115157,
+        0.30850978238998583,
+        0.3571037175030135,
+        0.34581070670617253,
+        0.33415144229701765,
+        0.334051999930793
+      ],
+      "baseline_avg_degree": 2.0,
+      "baseline_max_degree": 2,
+      "baseline_min_degree": 2,
+      "baseline_density": 0.2222222222222222,
+      "baseline_clustering": 0.0,
+      "baseline_diameter": 5,
+      "baseline_algebraic_connectivity": 0.3819660112501055
+    }
+  ],
+  "comparisons": {
+    "spectral_gap": {
+      "name": "Spectral Gap (\u03bb\u2082)",
+      "spearman_r": 0.39999999999999997,
+      "spearman_p": 0.6
+    },
+    "baseline_avg_degree": {
+      "name": "Average Degree",
+      "spearman_r": 0.632455532033676,
+      "spearman_p": 0.36754446796632406
+    },
+    "baseline_density": {
+      "name": "Graph Density",
+      "spearman_r": 0.21081851067789195,
+      "spearman_p": 0.7891814893221081
+    },
+    "baseline_clustering": {
+      "name": "Clustering Coefficient",
+      "spearman_r": 0.4472135954999579,
+      "spearman_p": 0.552786404500042
+    },
+    "baseline_algebraic_connectivity": {
+      "name": "Algebraic Connectivity",
+      "spearman_r": 0.39999999999999997,
+      "spearman_p": 0.6
+    }
+  }
+}
