@@ -279,8 +279,8 @@ async def run_quick_experiment(use_real_llm: bool = False, api_key: Optional[str
         "What is the most effective approach to address climate change?"
     ]
     
-    graph_types = ["complete", "cycle"]
-    agent_counts = [5, 10]
+    graph_types = ["complete", "cycle", "random", "scale_free"]
+    agent_counts = [5, 10, 15]
     
     all_results = []
     
@@ -291,8 +291,9 @@ async def run_quick_experiment(use_real_llm: bool = False, api_key: Optional[str
                 
                 config = SwarmConfig(
                     n_agents=n_agents,
-                    n_rounds=3,
+                    n_rounds=10,
                     graph_type=graph_type,
+                    consensus_threshold=0.6,
                     seed=q_idx * 100 + n_agents
                 )
                 
