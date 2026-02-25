@@ -19,7 +19,7 @@ class LLMConfig:
     temperature: float = 0.7
     max_tokens: int = 150
     api_key: Optional[str] = None
-    rate_limit_delay: float = 0.05
+    rate_limit_delay: float = 1.0  # Increased from 0.05 to avoid 429 errors
 
 @dataclass
 class SwarmConfig:
@@ -87,25 +87,45 @@ class RealLLMAgent:
             "max_tokens": self.config.max_tokens
         }
         
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    "https://api.openai.com/v1/chat/completions",
-                    headers=headers,
-                    json=payload
-                ) as resp:
-                    if resp.status == 200:
-                        data = await resp.json()
-                        opinion = data["choices"][0]["message"]["content"].strip()
-                        self.current_opinion = opinion
-                        self.opinion_history.append(opinion)
-                        return opinion
-                    else:
-                        return self._fallback()
-        except:
-            return self._fallback()
-        finally:
-            await asyncio.sleep(self.config.rate_limit_delay)
+        # Retry with exponential backoff
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.post(
+                        "https://api.openai.com/v1/chat/completions",
+                        headers=headers,
+                        json=payload
+                    ) as resp:
+                        if resp.status == 200:
+                            data = await resp.json()
+                            opinion = data["choices"][0]["message"]["content"].strip()
+                            self.current_opinion = opinion
+                            self.opinion_history.append(opinion)
+                            return opinion
+                        elif resp.status == 429:
+                            # Rate limited - exponential backoff
+                            wait_time = (2 ** attempt) + np.random.random()
+                            print(f"    Rate limit (429) for agent {self.id}, retrying in {wait_time:.1f}s...")
+                            await asyncio.sleep(wait_time)
+                            continue
+                        else:
+                            error_text = await resp.text()
+                            print(f"    API error for agent {self.id}: {resp.status}")
+                            if attempt < max_retries - 1:
+                                await asyncio.sleep(1)
+                                continue
+                            return self._fallback()
+            except Exception as e:
+                print(f"    Exception for agent {self.id}: {str(e)[:50]}")
+                if attempt < max_retries - 1:
+                    await asyncio.sleep(1)
+                    continue
+                return self._fallback()
+            finally:
+                await asyncio.sleep(self.config.rate_limit_delay)
+        
+        return self._fallback()
     
     def _fallback(self):
         return "Based on available information, further analysis is needed."
