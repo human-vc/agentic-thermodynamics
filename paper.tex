@@ -176,13 +176,15 @@ Designers of multi-agent systems can use our framework to:
     \item Optimize graph structure for their consensus requirements
 \end{enumerate}
 
-\subsection{The RLHF Boundary Condition}\label{sec:rlhf}
+\subsection{Experimental Validation Challenges}\label{sec:validation}
 
-An unexpected discovery emerged during our extended validation: certain topics trigger near-perfect consensus regardless of graph structure. Specifically, when agents discussed AI regulation, 97\% of trials achieved perfect consensus (score = 1.000) across all graph types and persona distributions.
+During extended validation with 144 trials, we initially observed near-perfect consensus across all conditions. Initial analysis suggested RLHF-induced homogenization, but careful debugging revealed the true cause: \textbf{API rate limiting}.
 
-We attribute this to \textbf{RLHF-induced homogenization}. GPT-4o-mini has been extensively fine-tuned to provide balanced, neutral responses on AI policy questions---a form of alignment that overrides the diversity we intentionally injected via personas. The model essentially ignores neighboring opinions and produces its ``safe'' default response.
+At high request volumes, GPT-4o-mini returns 429 errors. Our code fell back to identical default responses (``Based on available information, further analysis is needed''), artificially producing consensus scores of 1.000. This was not genuine convergence but an experimental artifact.
 
-This reveals a critical boundary condition for our framework: the spectral predictor assumes agents can genuinely disagree. When RLFH guardrails enforce uniformity, graph structure becomes irrelevant. This has practical implications: multi-agent systems discussing topics where the base model has strong alignment preferences will not benefit from sophisticated graph topology.
+After implementing exponential backoff and increasing rate-limit delays, we reran trials and observed normal consensus dynamics (scores 0.25--0.40) with proper diversity preservation. The 12-trial clean results reported in Section~\ref{sec:results} represent valid data collected under proper rate-limiting conditions.
+
+This experience highlights the importance of rigorous debugging in LLM-based experiments. Rate limiting, caching, and API errors can masquerade as model behavior, requiring careful instrumentation to distinguish genuine phenomena from experimental artifacts.
 
 \subsection{Limitations}
 
@@ -191,7 +193,8 @@ Our study has several limitations:
     \item Only tested with GPT-4o-mini; other models may behave differently
     \item Consensus measured by semantic similarity, not factual accuracy
     \item Static graphs; real systems may have dynamic topologies
-    \item RLHF effects may vary by model version and provider
+    \item Rate limiting constraints limited our trial count; larger-scale validation needed
+    \item API costs and latency prevent real-time multi-agent deployments
 \end{itemize}
 
 \section{Conclusion}
