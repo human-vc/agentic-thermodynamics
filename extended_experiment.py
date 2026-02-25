@@ -299,7 +299,7 @@ def compare_predictors(results: List[Dict]) -> Dict:
     
     return comparisons
 
-async def main(quick_test: bool = True):
+async def main(quick_test: bool = False):
     api_key = os.getenv("OPENAI_API_KEY")
 
     if not api_key:
