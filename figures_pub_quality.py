@@ -9,9 +9,9 @@ import json
 from scipy.stats import spearmanr
 import seaborn as sns
 
-# Publication settings
+# Publication settings - LaTeX-quality
 mpl.rcParams['font.family'] = 'serif'
-mpl.rcParams['font.serif'] = ['Computer Modern', 'Times New Roman', 'DejaVu Serif']
+mpl.rcParams['mathtext.fontset'] = 'cm'  # Computer Modern for math
 mpl.rcParams['font.size'] = 10
 mpl.rcParams['axes.labelsize'] = 11
 mpl.rcParams['axes.titlesize'] = 12
@@ -22,6 +22,13 @@ mpl.rcParams['figure.dpi'] = 300
 mpl.rcParams['savefig.dpi'] = 600
 mpl.rcParams['savefig.bbox'] = 'tight'
 mpl.rcParams['savefig.pad_inches'] = 0.02
+
+# Use LaTeX if available for proper math rendering
+try:
+    mpl.rcParams['text.usetex'] = True
+    mpl.rcParams['text.latex.preamble'] = r'\usepackage{amsmath}'
+except:
+    mpl.rcParams['text.usetex'] = False
 
 # Clean color palette
 colors = {
@@ -34,10 +41,10 @@ colors = {
     'neutral': '#424242'        # Gray
 }
 
-def load_data(filename="extended_results.json"):
+def load_data(filename="llm_results.json"):
     with open(filename) as f:
         data = json.load(f)
-    return data["results"]
+    return data.get("results", data)
 
 def filter_valid_data(results):
     """Remove RLHF artifacts (perfect consensus = forced agreement)"""
@@ -72,7 +79,7 @@ def figure1_spectral_gap_consensus(results, output="fig1_spectral_consensus.pdf"
             transform=ax.transAxes, fontsize=9, verticalalignment='top',
             bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.3))
     
-    ax.set_xlabel('Spectral Gap (λ₂)', fontweight='bold')
+    ax.set_xlabel(r'Spectral Gap ($\lambda_2$)', fontweight='bold')
     ax.set_ylabel('Consensus Score', fontweight='bold')
     ax.set_title('Spectral Gap Predicts Consensus Quality', fontweight='bold')
     ax.legend(loc='lower right', framealpha=0.9)
@@ -123,7 +130,7 @@ def figure2_phase_diagram(results, output="fig2_phase_diagram.pdf"):
     ax.legend(handles=legend_elements, loc='upper right', framealpha=0.9)
     
     ax.set_xlabel('Number of Agents (N)', fontweight='bold')
-    ax.set_ylabel('Spectral Gap (λ₂)', fontweight='bold')
+    ax.set_ylabel(r'Spectral Gap ($\lambda_2$)', fontweight='bold')
     ax.set_title('Phase Diagram: Consensus Collapse', fontweight='bold')
     ax.set_yscale('log')
     ax.grid(True, alpha=0.3, linestyle='--')

@@ -17,7 +17,7 @@ except ImportError:
 @dataclass
 class LLMConfig:
     model: str = "gpt-4o-mini"
-    temperature: float = 1.0  # Increased for more diversity
+    temperature: float = 0.7  # Match pilot study for proper replication
     max_tokens: int = 150
     api_key: Optional[str] = None
     rate_limit_delay: float = 1.0  # Avoid 429 errors
