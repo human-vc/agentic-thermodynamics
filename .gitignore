@@ -10,3 +10,17 @@ debug_*.json
 *_log.txt
 gpt35_*
 llm_results.json
+
+# Generated figures (keep PDFs, ignore PNGs for intermediates)
+fig*.png
+figure*.png
+pub_fig*.png
+*_results.json
+analysis_*.json
+final_analysis*.json
+metric_comparison.json
+overnight_results*.json
+reconstructed_results.json
+
+# Shell scripts (project specific)
+*.sh
